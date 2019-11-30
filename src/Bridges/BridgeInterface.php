@@ -4,7 +4,7 @@ namespace PHPPM\Bridges;
 
 use Psr\Http\Server\RequestHandlerInterface;
 
-interface BridgeInterface extends RequestHandlerInterface
+interface BridgeInterface
 {
     /**
      * Bootstrap an application
@@ -14,4 +14,7 @@ interface BridgeInterface extends RequestHandlerInterface
      * @param boolean $debug If debug is enabled
      */
     public function bootstrap($appBootstrap, $appenv, $debug);
+    
+    
+    public function handle(ServerRequestInterface $request);
 }
