@@ -13,6 +13,7 @@ use React\EventLoop\LoopInterface;
 use React\Http\Response;
 use React\Http\Server as HttpServer;
 use React\Promise\Promise;
+use React\Promise\PromiseInterface;
 use React\Socket\ConnectionInterface;
 use React\Socket\ServerInterface;
 use React\Socket\UnixConnector;
@@ -398,11 +399,15 @@ class ProcessSlave
         } catch (\Throwable $t) {
             $response = $catchLog($t);
         }
-
-        $promise = new Promise(function ($resolve) use ($response) {
-            return $resolve($response);
-        });
-
+        
+        if (false === ($response instanceof PromiseInterface)) {
+            $promise = new Promise(function ($resolve) use ($response) {
+              return $resolve($response);
+            });
+        } else {
+            $promise = $response;
+        }
+        
         $promise = $promise->then(function (ResponseInterface $response) use ($request, $logTime, $remoteIp) {
             if ($this->isLogging()) {
                 $this->logResponse($request, $response, $logTime, $remoteIp);
