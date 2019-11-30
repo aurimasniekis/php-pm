@@ -3,6 +3,7 @@
 namespace PHPPM\Bridges;
 
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\ServerRequestInterface;
 
 interface BridgeInterface
 {
